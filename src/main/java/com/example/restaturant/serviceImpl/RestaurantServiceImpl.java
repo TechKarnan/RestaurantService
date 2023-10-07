@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.restaturant.entity.RestaurantEntity;
-
+import com.example.restaturant.mapper.RestaurantMapper;
 import com.example.restaturant.model.RestaurantModel;
 import com.example.restaturant.repo.RestaurantRepo;
 import com.example.restaturant.service.RestaurantService;
@@ -25,8 +25,9 @@ public class RestaurantServiceImpl implements RestaurantService {
 	@Override
 	public List<RestaurantModel> getAll() {
 		List<RestaurantEntity> restList = restRepo.findAll();	
-		List<RestaurantModel> restModel = restList.stream().map((data)->this.model.map(data,RestaurantModel.class)).collect(Collectors.toList());
-	    return restModel;
+		//List<RestaurantModel> restModel = restList.stream().map((data)->this.model.map(data,RestaurantModel.class)).collect(Collectors.toList());
+		List<RestaurantModel> restModel = restList.stream().map((data)->RestaurantMapper.INSTANCE.entitytoModel(data)).collect(Collectors.toList());
+		return restModel;
 		
 	}
 
